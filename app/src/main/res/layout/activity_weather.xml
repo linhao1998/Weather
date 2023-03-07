@@ -44,7 +44,7 @@
 
         <fragment
             android:id="@+id/placeFragment"
-            android:name="com.example.sunnyweather.PlaceFragment"
+            android:name="com.example.weather.ui.place.PlaceFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="25dp" />

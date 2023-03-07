@@ -1,6 +1,8 @@
 package com.example.weather.ui.place
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +15,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weather.MainActivity
 import com.example.weather.R
-import com.example.weather.WeatherApplication
+import com.example.weather.ui.weather.WeatherActivity
 
 class PlaceFragment: Fragment() {
 
@@ -33,17 +36,30 @@ class PlaceFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return inflater.inflate(R.layout.fragment_place,container,false)
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (activity is MainActivity && viewModel.isPlaceSaved()) {
+            val place = viewModel.getSavedPlace()
+            val intent = Intent(context,WeatherActivity::class.java).apply {
+                putExtra("location_lng", place.location.lng)
+                putExtra("location_lat", place.location.lat)
+                putExtra("place_name", place.name)
+            }
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
+
         val layoutManager = LinearLayoutManager(activity)
         recyclerView = view.findViewById(R.id.recyclerView)
         searchPlaceEdit = view.findViewById(R.id.searchPlaceEdit)
         bgImageView = view.findViewById(R.id.bgImageView)
         recyclerView.layoutManager = layoutManager
-        adapter = PlaceAdapter(viewModel.placeList)
+        adapter = PlaceAdapter(this,viewModel.placeList)
         recyclerView.adapter = adapter
         searchPlaceEdit.addTextChangedListener { editable ->
             val content = editable.toString()
