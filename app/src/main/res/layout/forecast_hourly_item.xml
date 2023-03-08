@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="11dp">
+
+    <TextView
+        android:id="@+id/hourlyTemperatureInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16sp"
+        android:layout_marginBottom="6dp"/>
+
+    <ImageView
+        android:id="@+id/hourlySkyIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="6dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/hourlyDateInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="14sp"/>
+
+</LinearLayout>

@@ -24,6 +24,8 @@
 
                 <include layout="@layout/now"/>
 
+                <include layout="@layout/forecast_hourly"/>
+
                 <include layout="@layout/forecast"/>
 
                 <include layout="@layout/life_index"/>

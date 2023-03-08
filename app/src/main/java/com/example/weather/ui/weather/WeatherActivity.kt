@@ -1,5 +1,6 @@
 package com.example.weather.ui.weather
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -14,12 +15,16 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.weather.R
+import com.example.weather.logic.model.HourlyForecast
 import com.example.weather.logic.model.Weather
 import com.example.weather.logic.model.getSky
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class WeatherActivity : AppCompatActivity() {
 
@@ -49,6 +54,12 @@ class WeatherActivity : AppCompatActivity() {
 
     private lateinit var navBtn: Button
 
+    private lateinit var hourlyRecyclerView: RecyclerView
+
+    private val hourlyForecastList = ArrayList<HourlyForecast>()
+
+    private lateinit var hourlyAdapter: HourlyAdapter
+
     lateinit var drawerLayout: DrawerLayout
 
     val viewModel  by lazy { ViewModelProvider(this).get(WeatherViewModel::class.java) }
@@ -73,6 +84,13 @@ class WeatherActivity : AppCompatActivity() {
         swipeRefresh = findViewById(R.id.swipeRefresh)
         navBtn = findViewById(R.id.navBtn)
         drawerLayout = findViewById(R.id.drawerLayout)
+        hourlyRecyclerView = findViewById(R.id.hourlyRecyclerView)
+
+        val layoutManager = LinearLayoutManager(this)
+        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        hourlyRecyclerView.layoutManager = layoutManager
+        hourlyAdapter = HourlyAdapter(hourlyForecastList)
+        hourlyRecyclerView.adapter = hourlyAdapter
 
         if (viewModel.locationLng.isEmpty()) {
             viewModel.locationLng = intent.getStringExtra("location_lng") ?: ""
@@ -112,13 +130,15 @@ class WeatherActivity : AppCompatActivity() {
             }
 
             override fun onDrawerStateChanged(newState: Int) {}
-
         })
     }
 
+
+    @SuppressLint("NotifyDataSetChanged")
     private fun showWeatherInfo(weather: Weather) {
         placeName.text = viewModel.placeName
         val realtime = weather.realtime
+        val hourly = weather.hourly
         val daily = weather.daily
         // 填充now.xml布局中的数据
         val currentTempText = "${realtime.temperature.toInt()} ℃"
@@ -127,6 +147,18 @@ class WeatherActivity : AppCompatActivity() {
         val currentPM25Text = "空气指数 ${realtime.airQuality.aqi.chn.toInt()}"
         currentAQI.text = currentPM25Text
         nowLayout.setBackgroundResource(getSky(realtime.skycon).bg)
+
+        //填充forecast_hourly.xml布局中的数据
+        hourlyForecastList.clear()
+        val hours = hourly.skycon.size
+        for (i in 0 until hours) {
+            val temVal = hourly.temperature[i].value
+            val skyVal = hourly.skycon[i].value
+            val datetime = hourly.skycon[i].datetime
+            hourlyForecastList.add(HourlyForecast(temVal, skyVal, datetime))
+        }
+        hourlyAdapter.notifyDataSetChanged()
+
         // 填充forecast.xml布局中的数据
         forecastLayout.removeAllViews()
         val days = daily.skycon.size
