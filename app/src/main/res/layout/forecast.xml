@@ -19,7 +19,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:text="预报"
+            android:text="7天预报"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="20sp"/>
 
