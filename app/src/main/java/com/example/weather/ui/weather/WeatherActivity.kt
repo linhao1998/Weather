@@ -2,6 +2,7 @@ package com.example.weather.ui.weather
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,6 +23,7 @@ import com.example.weather.R
 import com.example.weather.logic.model.HourlyForecast
 import com.example.weather.logic.model.Weather
 import com.example.weather.logic.model.getSky
+import com.example.weather.ui.place.PlaceSearchActivity
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -60,9 +62,11 @@ class WeatherActivity : AppCompatActivity() {
 
     private lateinit var hourlyAdapter: HourlyAdapter
 
-    lateinit var drawerLayout: DrawerLayout
+    private lateinit var searchPlaceEntrance: EditText
 
-    val viewModel  by lazy { ViewModelProvider(this).get(WeatherViewModel::class.java) }
+    private lateinit var drawerLayout: DrawerLayout
+
+    private val viewModel  by lazy { ViewModelProvider(this).get(WeatherViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +89,14 @@ class WeatherActivity : AppCompatActivity() {
         navBtn = findViewById(R.id.navBtn)
         drawerLayout = findViewById(R.id.drawerLayout)
         hourlyRecyclerView = findViewById(R.id.hourlyRecyclerView)
+        searchPlaceEntrance = findViewById(R.id.searchPlaceEntrance)
+
+        searchPlaceEntrance.setOnClickListener {
+            val intent = Intent(this, PlaceSearchActivity::class.java).apply {
+                putExtra("FROM_ACTIVITY","WeatherActivity")
+            }
+            startActivity(intent)
+        }
 
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
@@ -132,7 +144,14 @@ class WeatherActivity : AppCompatActivity() {
             override fun onDrawerStateChanged(newState: Int) {}
         })
     }
-
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        drawerLayout.closeDrawers()
+        viewModel.locationLng = intent?.getStringExtra("location_lng") ?: ""
+        viewModel.locationLat = intent?.getStringExtra("location_lat") ?: ""
+        viewModel.placeName = intent?.getStringExtra("place_name") ?: ""
+        refreshWeather()
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun showWeatherInfo(weather: Weather) {

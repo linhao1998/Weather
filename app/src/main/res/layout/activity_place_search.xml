@@ -14,13 +14,13 @@
     <FrameLayout
         android:id="@+id/actionBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:background="?attr/colorPrimary">
 
         <EditText
             android:id="@+id/searchPlaceEdit"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
