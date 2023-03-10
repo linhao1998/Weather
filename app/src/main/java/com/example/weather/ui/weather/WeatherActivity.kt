@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -66,6 +67,8 @@ class WeatherActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
 
+    private lateinit var addBtn: Button
+
     private val viewModel  by lazy { ViewModelProvider(this).get(WeatherViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,6 +93,7 @@ class WeatherActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawerLayout)
         hourlyRecyclerView = findViewById(R.id.hourlyRecyclerView)
         searchPlaceEntrance = findViewById(R.id.searchPlaceEntrance)
+        addBtn = findViewById(R.id.addBtn)
 
         //启动PlaceSearchActivity
         searchPlaceEntrance.setOnClickListener {
@@ -132,6 +136,9 @@ class WeatherActivity : AppCompatActivity() {
         }
         navBtn.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
+        }
+        addBtn.setOnClickListener {
+            drawerLayout.open()
         }
         drawerLayout.addDrawerListener(object: DrawerLayout.DrawerListener {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}

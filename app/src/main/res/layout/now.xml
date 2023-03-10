@@ -30,6 +30,14 @@
             android:textColor="#fff"
             android:textSize="22sp"/>
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/addBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="15dp"
+            android:layout_gravity="center_vertical|end"
+            android:background="@drawable/ic_add"/>
+
     </FrameLayout>
 
     <LinearLayout
