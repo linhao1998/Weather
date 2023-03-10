@@ -54,8 +54,8 @@ class PlaceSearchActivity : AppCompatActivity() {
         searchPlaceEdit = findViewById(R.id.searchPlaceEdit)
         bgImageView = findViewById(R.id.bgImageView)
 
-        //弹出虚拟键盘
-        searchPlaceEdit.postDelayed({showSoftKeyboard(searchPlaceEdit)},50L)
+        //获取searchPlaceEdit焦点，弹出软键盘
+        searchPlaceEdit.requestFocus()
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
@@ -85,12 +85,5 @@ class PlaceSearchActivity : AppCompatActivity() {
                 result.exceptionOrNull()?.printStackTrace()
             }
         })
-    }
-
-    private fun showSoftKeyboard(view: View) {
-        if (view.requestFocus()) {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-        }
     }
 }
