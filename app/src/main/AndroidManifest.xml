@@ -26,7 +26,6 @@
         <activity
             android:name=".ui.weather.WeatherActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateVisible"
             android:exported="false" />
     </application>
 

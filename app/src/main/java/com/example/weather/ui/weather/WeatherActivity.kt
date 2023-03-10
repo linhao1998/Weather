@@ -91,6 +91,7 @@ class WeatherActivity : AppCompatActivity() {
         hourlyRecyclerView = findViewById(R.id.hourlyRecyclerView)
         searchPlaceEntrance = findViewById(R.id.searchPlaceEntrance)
 
+        //启动PlaceSearchActivity
         searchPlaceEntrance.setOnClickListener {
             val intent = Intent(this, PlaceSearchActivity::class.java).apply {
                 putExtra("FROM_ACTIVITY","WeatherActivity")
@@ -98,6 +99,7 @@ class WeatherActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //设置24小时预报的RecyclerView
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         hourlyRecyclerView.layoutManager = layoutManager
