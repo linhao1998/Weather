@@ -1,6 +1,5 @@
 package com.example.weather.logic
 
-import android.util.Log
 import androidx.lifecycle.liveData
 import com.example.weather.WeatherApplication
 import com.example.weather.logic.dao.PlaceSearchDao
@@ -57,7 +56,6 @@ object Repository {
     fun addPlaceManage(placeManage: PlaceManage) = fire(Dispatchers.IO) {
         coroutineScope {
             val queryPlaceManage = async { placeManageDao.querySpecifyPlaceManage(placeManage.lng,placeManage.lat) }.await()
-            Log.d("linhao",queryPlaceManage.toString())
             if (queryPlaceManage == null) {
                 async { placeManageDao.insertPlaceManage(placeManage) }.await()
             } else {

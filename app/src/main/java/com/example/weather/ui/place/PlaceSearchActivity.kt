@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
@@ -27,6 +28,8 @@ class PlaceSearchActivity : AppCompatActivity() {
     private lateinit var searchPlaceEdit: EditText
 
     private lateinit var bgImageView: ImageView
+
+    private lateinit var cancelBtn: TextView
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +53,7 @@ class PlaceSearchActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         searchPlaceEdit = findViewById(R.id.searchPlaceEdit)
         bgImageView = findViewById(R.id.bgImageView)
+        cancelBtn = findViewById(R.id.cancelBtn)
 
         //获取searchPlaceEdit焦点，弹出软键盘
         searchPlaceEdit.requestFocus()
@@ -72,6 +76,10 @@ class PlaceSearchActivity : AppCompatActivity() {
                 adapter.notifyDataSetChanged()
             }
         }
+        cancelBtn.setOnClickListener {
+            finish()
+        }
+
         viewModel.placeLiveData.observe(this, Observer { result ->
             val places = result.getOrNull()
             if (places != null) {

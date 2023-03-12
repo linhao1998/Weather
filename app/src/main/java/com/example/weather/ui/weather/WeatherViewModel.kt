@@ -5,7 +5,6 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.example.weather.logic.Repository
 import com.example.weather.logic.model.Location
-import com.example.weather.logic.model.Place
 
 class WeatherViewModel: ViewModel() {
 

@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
-import com.example.weather.logic.Repository
 import com.example.weather.logic.model.Location
 import com.example.weather.logic.model.Place
 import com.example.weather.logic.model.PlaceManage

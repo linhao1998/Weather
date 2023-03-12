@@ -11,7 +11,7 @@
         android:layout_alignParentBottom="true"
         android:src="@drawable/bg_place"/>
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/actionBarLayout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -19,17 +19,27 @@
 
         <EditText
             android:id="@+id/searchPlaceEdit"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:layout_weight="1"
             android:hint="输入地址"
-            android:background="@drawable/search_bg"/>
+            android:background="@drawable/search_bg"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"/>
 
-    </FrameLayout>
+        <TextView
+            android:id="@+id/cancelBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:padding="10dp"
+            android:text="取消"
+            android:textSize="20sp"
+            android:textColor="?attr/colorOnPrimary"/>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
