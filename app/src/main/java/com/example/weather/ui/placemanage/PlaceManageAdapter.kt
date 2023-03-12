@@ -16,6 +16,11 @@ import com.example.weather.ui.weather.WeatherActivity
 
 class PlaceManageAdapter(private val weatherActivity: WeatherActivity, private val placeManageList: List<PlaceManage>): RecyclerView.Adapter<PlaceManageAdapter.ViewHolder>() {
 
+    private val scaleXDown = PropertyValuesHolder.ofFloat(View.SCALE_X, 0.9f)
+    private val scaleYDown = PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.9f)
+    private val scaleXUp = PropertyValuesHolder.ofFloat(View.SCALE_X, 1.0f)
+    private val scaleYUp = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1.0f)
+
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val placeManageName: TextView = view.findViewById(R.id.placeManageName)
         val placeManageSkycon: TextView = view.findViewById(R.id.placeManageSkycon)
@@ -41,6 +46,10 @@ class PlaceManageAdapter(private val weatherActivity: WeatherActivity, private v
         holder.itemView.setOnLongClickListener {
             val position = holder.bindingAdapterPosition
             val placeManage = placeManageList[position]
+            // 动画
+            val animator = ObjectAnimator.ofPropertyValuesHolder(it, scaleXDown,scaleYDown)
+            animator.duration = 200
+            animator.start()
             AlertDialog.Builder(parent.context).apply {
                 setTitle("删除地点")
                 setMessage("是否删除地点：${placeManage.name}?")
@@ -48,9 +57,15 @@ class PlaceManageAdapter(private val weatherActivity: WeatherActivity, private v
                 setPositiveButton("是") { dialog, which ->
                     weatherActivity.placeManageViewModel.deletePlaceManage(placeManage.lng,placeManage.lat)
                     dialog.dismiss()
+                    it.scaleX = 1.0f
+                    it.scaleY = 1.0f
                 }
                 setNegativeButton("否") { dialog, which ->
                     dialog.dismiss()
+                    //动画
+                    val animator = ObjectAnimator.ofPropertyValuesHolder(it, scaleXUp,scaleYUp)
+                    animator.duration = 200
+                    animator.start()
                 }
                 show()
             }
