@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.weather.logic.Repository
 import com.example.weather.logic.model.Place
 
-class PlaceViewModel: ViewModel() {
+class PlaceSearchViewModel: ViewModel() {
 
     private val searchLiveData = MutableLiveData<String>()
 

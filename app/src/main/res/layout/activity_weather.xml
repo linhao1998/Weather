@@ -26,7 +26,7 @@
 
                 <include layout="@layout/forecast_hourly"/>
 
-                <include layout="@layout/forecast"/>
+                <include layout="@layout/forecast_daily"/>
 
                 <include layout="@layout/life_index"/>
 

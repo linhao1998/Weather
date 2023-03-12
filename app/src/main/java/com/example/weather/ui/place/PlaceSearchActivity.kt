@@ -1,12 +1,10 @@
 package com.example.weather.ui.place
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -17,15 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
 import com.example.weather.ui.weather.WeatherActivity
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class PlaceSearchActivity : AppCompatActivity() {
 
-    val viewModel by lazy { ViewModelProvider(this).get(PlaceViewModel::class.java) }
+    val viewModel by lazy { ViewModelProvider(this).get(PlaceSearchViewModel::class.java) }
 
-    private lateinit var adapter: PlaceAdapter
+    private lateinit var adapter: PlaceSearchAdapter
 
     private lateinit var recyclerView: RecyclerView
 
@@ -33,6 +28,7 @@ class PlaceSearchActivity : AppCompatActivity() {
 
     private lateinit var bgImageView: ImageView
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_place_search)
@@ -44,6 +40,7 @@ class PlaceSearchActivity : AppCompatActivity() {
                 putExtra("location_lng", place.location.lng)
                 putExtra("location_lat", place.location.lat)
                 putExtra("place_name", place.name)
+                putExtra("place_address",place.address)
             }
             startActivity(intent)
             finish()
@@ -57,10 +54,13 @@ class PlaceSearchActivity : AppCompatActivity() {
         //获取searchPlaceEdit焦点，弹出软键盘
         searchPlaceEdit.requestFocus()
 
+
+        //设置地点搜索的RecyclerView
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        adapter = PlaceAdapter(this,viewModel.placeList)
+        adapter = PlaceSearchAdapter(this,viewModel.placeList)
         recyclerView.adapter = adapter
+
         searchPlaceEdit.addTextChangedListener { editable ->
             val content = editable.toString()
             if (content.isNotEmpty()) {
