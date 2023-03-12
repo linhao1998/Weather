@@ -160,6 +160,19 @@ class WeatherActivity : AppCompatActivity() {
             }
         })
 
+        placeManageViewModel.deletePlaceManageLiveData.observe(this, Observer { result ->
+            val placeManages = result.getOrNull()
+            if (placeManages != null) {
+                placeManageViewModel.placeManageList.clear()
+                placeManageViewModel.placeManageList.addAll(placeManages)
+                placeManageAdapter.notifyDataSetChanged()
+                Toast.makeText(this,"已删除",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this,"无法获取地点管理数据", Toast.LENGTH_SHORT).show()
+                result.exceptionOrNull()?.printStackTrace()
+            }
+        })
+
         placeManageViewModel.loadAllPlaceManages.observe(this, Observer{ result ->
             val placeManages = result.getOrNull()
             if (placeManages != null) {
