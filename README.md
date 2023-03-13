@@ -25,4 +25,4 @@
 
 项目使用MVVM架构模式实现。
 
-<img src=".\images\weather_architecture.png"/>
+<img src=".\images\weather_architecture.png" style="width:75%"/>
