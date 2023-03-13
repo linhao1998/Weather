@@ -4,8 +4,8 @@
 
 书籍《第一行代码 Android 第三版》 天气预报APP  SunnyWeather的升级版。该项目主要增加了24小时预报功能和地点管理功能（可对常用的地点进行添加或者对地点管理中的已添加的地点进行删除），地点管理功能使用了Room框架。APP页面如下：
 
-<img src=".\screenshots\1.jpg" style="zoom:25%;" /><img src=".\screenshots\2.jpg" style="zoom:25%;" /><img src=".\screenshots\3.jpg" style="zoom:25%;" />
-<img src=".\screenshots\4.jpg" style="zoom:25%;" /><img src=".\screenshots\5.jpg" style="zoom:25%;" /><img src=".\screenshots\6.jpg" style="zoom:25%;" />
+<img src=".\screenshots\1.jpg" style="width:25%;" /><img src=".\screenshots\2.jpg" style="width:25%;" /><img src=".\screenshots\3.jpg" style="width:25%;" />
+<img src=".\screenshots\4.jpg" style="width:25%;" /><img src=".\screenshots\5.jpg" style="width:25%;" /><img src=".\screenshots\6.jpg" style="width:25%;" />
 
 对之前SunnyWeather项目的改进主要有以下几点：
 
