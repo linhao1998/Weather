@@ -6,7 +6,7 @@ import com.example.weather.WeatherApplication
 import com.example.weather.logic.model.Place
 import com.google.gson.Gson
 
-object PlaceSearchDao {
+object PlaceDao {
 
     fun savePlace(place: Place) {
         sharedPreferences().edit {

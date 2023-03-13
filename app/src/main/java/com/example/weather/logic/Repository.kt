@@ -2,7 +2,7 @@ package com.example.weather.logic
 
 import androidx.lifecycle.liveData
 import com.example.weather.WeatherApplication
-import com.example.weather.logic.dao.PlaceSearchDao
+import com.example.weather.logic.dao.PlaceDao
 import com.example.weather.logic.model.Place
 import com.example.weather.logic.model.PlaceManage
 import com.example.weather.logic.model.Weather
@@ -47,11 +47,11 @@ object Repository {
         }
     }
 
-    fun savePlace(place: Place) = PlaceSearchDao.savePlace(place)
+    fun savePlace(place: Place) = PlaceDao.savePlace(place)
 
-    fun getSavedPlace() = PlaceSearchDao.getSavedPlace()
+    fun getSavedPlace() = PlaceDao.getSavedPlace()
 
-    fun isPlaceSaved() = PlaceSearchDao.isPlaceSaved()
+    fun isPlaceSaved() = PlaceDao.isPlaceSaved()
 
     fun addPlaceManage(placeManage: PlaceManage) = fire(Dispatchers.IO) {
         coroutineScope {
