@@ -1,4 +1,4 @@
-package com.example.weather.ui.place
+package com.example.weather.ui.placesearch
 
 import android.annotation.SuppressLint
 import android.content.Intent

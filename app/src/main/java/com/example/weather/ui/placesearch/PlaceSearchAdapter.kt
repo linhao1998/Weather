@@ -1,4 +1,4 @@
-package com.example.weather.ui.place
+package com.example.weather.ui.placesearch
 
 import android.content.Intent
 import android.view.LayoutInflater

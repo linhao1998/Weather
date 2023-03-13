@@ -1,4 +1,4 @@
-package com.example.weather.ui.placemanage
+package com.example.weather.ui.weather.placemanage
 
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder

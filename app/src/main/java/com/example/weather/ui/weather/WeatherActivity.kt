@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -23,9 +22,11 @@ import com.example.weather.logic.model.HourlyForecast
 import com.example.weather.logic.model.PlaceManage
 import com.example.weather.logic.model.Weather
 import com.example.weather.logic.model.getSky
-import com.example.weather.ui.place.PlaceSearchActivity
-import com.example.weather.ui.placemanage.PlaceManageAdapter
-import com.example.weather.ui.placemanage.PlaceManageViewModel
+import com.example.weather.ui.placesearch.PlaceSearchActivity
+import com.example.weather.ui.weather.placemanage.PlaceManageAdapter
+import com.example.weather.ui.weather.placemanage.PlaceManageViewModel
+import com.example.weather.ui.weather.weathershow.HourlyAdapter
+import com.example.weather.ui.weather.weathershow.WeatherShowViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -74,7 +75,7 @@ class WeatherActivity : AppCompatActivity() {
 
     lateinit var drawerLayout: DrawerLayout
 
-    val weatherViewModel  by lazy { ViewModelProvider(this).get(WeatherViewModel::class.java) }
+    val weatherViewModel  by lazy { ViewModelProvider(this).get(WeatherShowViewModel::class.java) }
 
     val placeManageViewModel by lazy {ViewModelProvider(this).get(PlaceManageViewModel::class.java)}
 
