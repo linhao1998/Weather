@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -278,8 +279,13 @@ class WeatherActivity : AppCompatActivity() {
             val skyIcon = view.findViewById(R.id.skyIcon) as ImageView
             val skyInfo = view.findViewById(R.id.skyInfo) as TextView
             val temperatureInfo = view.findViewById(R.id.temperatureInfo) as TextView
-            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            dateInfo.text = simpleDateFormat.format(skycon.date)
+            val simpleDateFormat = SimpleDateFormat("MM-dd", Locale.getDefault())
+            val dateInfoStr = when(i) {
+                0 -> "今天  ${simpleDateFormat.format(skycon.date)}"
+                1 -> "明天  ${simpleDateFormat.format(skycon.date)}"
+                else -> "${getDayOfWeek(skycon.date)}  ${simpleDateFormat.format(skycon.date)}"
+            }
+            dateInfo.text = dateInfoStr
             val sky = getSky(skycon.value)
             skyIcon.setImageResource(sky.icon)
             skyInfo.text = sky.info
@@ -299,5 +305,10 @@ class WeatherActivity : AppCompatActivity() {
     fun refreshWeather() {
         weatherViewModel.refreshWeather(weatherViewModel.locationLng,weatherViewModel.locationLat)
         swipeRefresh.isRefreshing = true
+    }
+
+    private fun getDayOfWeek(date: Date): String {
+        val sdf = SimpleDateFormat("E", Locale.getDefault())
+        return sdf.format(date)
     }
 }
