@@ -22,7 +22,7 @@ class PlaceManageViewModel: ViewModel() {
         Repository.addPlaceManage(placeManage)
     }
 
-    var deletePlaceManageLiveData = Transformations.switchMap(locationLiveData) { location ->
+    val deletePlaceManageLiveData = Transformations.switchMap(locationLiveData) { location ->
         Repository.deletePlaceManage(location.lng,location.lat)
     }
 

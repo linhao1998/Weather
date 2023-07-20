@@ -187,7 +187,7 @@ class WeatherActivity : AppCompatActivity() {
             }
         })
 
-        swipeRefresh.setColorSchemeResources(R.color.purple_500)
+        swipeRefresh.setColorSchemeResources(R.color.royal_blue)
         refreshWeather()                    //刷新天气
         placeManageViewModel.refreshPlaceManage()     //刷新地点管理
 
@@ -207,11 +207,15 @@ class WeatherActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(object: DrawerLayout.DrawerListener {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
 
-            override fun onDrawerOpened(drawerView: View) {}
+            override fun onDrawerOpened(drawerView: View) {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
 
             override fun onDrawerClosed(drawerView: View) {
                 val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(drawerView.windowToken,InputMethodManager.HIDE_NOT_ALWAYS)
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             }
 
             override fun onDrawerStateChanged(newState: Int) {}

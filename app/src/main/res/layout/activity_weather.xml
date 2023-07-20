@@ -42,7 +42,7 @@
         android:layout_gravity="start"
         android:clickable="true"
         android:focusable="true"
-        android:background="?attr/colorPrimary">
+        android:background="?attr/colorOnPrimary">
 
         <include
             layout="@layout/place_manage"

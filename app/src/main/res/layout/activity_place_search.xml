@@ -15,7 +15,7 @@
         android:id="@+id/actionBarLayout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="?attr/colorPrimary">
+        android:background="?attr/colorOnPrimary">
 
         <EditText
             android:id="@+id/searchPlaceEdit"
@@ -36,8 +36,8 @@
             android:layout_gravity="center_vertical|end"
             android:padding="10dp"
             android:text="取消"
-            android:textSize="20sp"
-            android:textColor="?attr/colorOnPrimary"/>
+            android:textSize="18sp"
+            android:textColor="?attr/colorAccent"/>
 
     </LinearLayout>
 
