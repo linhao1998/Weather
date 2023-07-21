@@ -1,8 +1,8 @@
 package com.example.weather.ui.weather.weathershow
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import com.example.weather.logic.Repository
 import com.example.weather.logic.model.Location
 
@@ -22,9 +22,9 @@ class WeatherShowViewModel: ViewModel() {
 
     var placeSkycon = ""
 
-    var isUpdatePlaceManage = 0
+    var isUpdatePlaceManage = false
 
-    val weatherLiveData = Transformations.switchMap(locationLiveData) { location ->
+    val weatherLiveData = locationLiveData.switchMap { location ->
         Repository.refreshWeather(location.lng,location.lat)
     }
 

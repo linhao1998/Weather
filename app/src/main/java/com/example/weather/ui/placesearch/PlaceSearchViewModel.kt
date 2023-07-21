@@ -1,8 +1,8 @@
 package com.example.weather.ui.placesearch
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import com.example.weather.logic.Repository
 import com.example.weather.logic.model.Place
 
@@ -12,7 +12,7 @@ class PlaceSearchViewModel: ViewModel() {
 
     val placeList = ArrayList<Place>()
 
-    val placeLiveData = Transformations.switchMap(searchLiveData) { query ->
+    val placeLiveData = searchLiveData.switchMap { query ->
         Repository.searchPlaces(query)
     }
 

@@ -38,8 +38,8 @@ class PlaceManageAdapter(private val weatherActivity: WeatherActivity, private v
             weatherActivity.weatherViewModel.locationLng = placeManage.lng
             weatherActivity.weatherViewModel.locationLat = placeManage.lat
             weatherActivity.weatherViewModel.placeName = placeManage.name
+            weatherActivity.weatherViewModel.isUpdatePlaceManage = true
             weatherActivity.refreshWeather()
-            weatherActivity.weatherViewModel.isUpdatePlaceManage = 1
             val place = Place(placeManage.name, Location(placeManage.lng,placeManage.lat),placeManage.address)
             weatherActivity.placeManageViewModel.savePlace(place)
         }
@@ -54,18 +54,18 @@ class PlaceManageAdapter(private val weatherActivity: WeatherActivity, private v
                 setTitle("删除地点")
                 setMessage("是否删除地点：${placeManage.name}?")
                 setCancelable(false)
-                setPositiveButton("是") { dialog, which ->
+                setPositiveButton("是") { dialog, _ ->
                     weatherActivity.placeManageViewModel.deletePlaceManage(placeManage.lng,placeManage.lat)
                     dialog.dismiss()
                     it.scaleX = 1.0f
                     it.scaleY = 1.0f
                 }
-                setNegativeButton("否") { dialog, which ->
+                setNegativeButton("否") { dialog, _ ->
                     dialog.dismiss()
                     //动画
-                    val animator = ObjectAnimator.ofPropertyValuesHolder(it, scaleXUp,scaleYUp)
-                    animator.duration = 200
-                    animator.start()
+                    val deleteAnimator = ObjectAnimator.ofPropertyValuesHolder(it, scaleXUp,scaleYUp)
+                    deleteAnimator.duration = 200
+                    deleteAnimator.start()
                 }
                 show()
             }

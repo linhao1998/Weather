@@ -10,6 +10,7 @@ import com.example.weather.logic.network.WeatherNetwork
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 object Repository {
@@ -53,26 +54,46 @@ object Repository {
 
     fun isPlaceSaved() = PlaceDao.isPlaceSaved()
 
-    fun addPlaceManage(placeManage: PlaceManage) = fire(Dispatchers.IO) {
-        coroutineScope {
-            val queryPlaceManage = async { placeManageDao.querySpecifyPlaceManage(placeManage.lng,placeManage.lat) }.await()
-            if (queryPlaceManage == null) {
-                async { placeManageDao.insertPlaceManage(placeManage) }.await()
-            } else {
-                queryPlaceManage.realtimeTem = placeManage.realtimeTem
-                queryPlaceManage.skycon = placeManage.skycon
-                async { placeManageDao.updatePlaceManage(queryPlaceManage)}.await()
+    suspend fun addPlaceManage(placeManage: PlaceManage): Result<Int> {
+        return try {
+            withContext(Dispatchers.IO) {
+                val queryPlaceManage = async { placeManageDao.querySpecifyPlaceManage(placeManage.lng,placeManage.lat) }.await()
+                if (queryPlaceManage == null) {
+                    async { placeManageDao.insertPlaceManage(placeManage) }.await()
+                } else {
+                    queryPlaceManage.realtimeTem = placeManage.realtimeTem
+                    queryPlaceManage.skycon = placeManage.skycon
+                    async { placeManageDao.updatePlaceManage(queryPlaceManage)}.await()
+                }
+                Result.success(1)
             }
-            val placeManageList = async { placeManageDao.loadAllPlaceManages() }.await()
-            Result.success(placeManageList)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 
-    fun deletePlaceManage(lng: String, lat: String) = fire(Dispatchers.IO) {
-        coroutineScope {
-            async { placeManageDao.deletePlaceManageByLngLat(lng, lat) }.await()
-            val placeManageList = async { placeManageDao.loadAllPlaceManages() }.await()
-            Result.success(placeManageList)
+    suspend fun updatePlaceManage(placeManage: PlaceManage): Result<Int> {
+        return try {
+            withContext(Dispatchers.IO) {
+                val queryPlaceManage = async { placeManageDao.querySpecifyPlaceManage(placeManage.lng,placeManage.lat) }.await()
+                queryPlaceManage?.realtimeTem = placeManage.realtimeTem
+                queryPlaceManage?.skycon = placeManage.skycon
+                async { placeManageDao.updatePlaceManage(queryPlaceManage!!)}.await()
+                Result.success(1)
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun deletePlaceManage(lng: String, lat: String): Result<Int> {
+        return try {
+            withContext(Dispatchers.IO) {
+                val num = async { placeManageDao.deletePlaceManageByLngLat(lng, lat) }.await()
+                Result.success(num)
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 

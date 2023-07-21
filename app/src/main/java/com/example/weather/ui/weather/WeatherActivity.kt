@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -139,7 +138,7 @@ class WeatherActivity : AppCompatActivity() {
             weatherViewModel.placeAddress = intent.getStringExtra("place_address") ?: ""
         }
 
-        weatherViewModel.weatherLiveData.observe(this, Observer { result ->
+        weatherViewModel.weatherLiveData.observe(this) { result ->
             val weather = result.getOrNull()
             if (weather != null) {
                 showWeatherInfo(weather)
@@ -148,9 +147,9 @@ class WeatherActivity : AppCompatActivity() {
                 result.exceptionOrNull()?.printStackTrace()
             }
             swipeRefresh.isRefreshing = false
-        })
+        }
 
-        placeManageViewModel.addPlaceManageLiveData.observe(this, Observer{ result ->
+        placeManageViewModel.placeManageLiveData.observe(this) { result ->
             val placeManages = result.getOrNull()
             if (placeManages != null) {
                 placeManageViewModel.placeManageList.clear()
@@ -160,32 +159,13 @@ class WeatherActivity : AppCompatActivity() {
                 Toast.makeText(this,"无法获取地点管理数据", Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
             }
-        })
+        }
 
-        placeManageViewModel.deletePlaceManageLiveData.observe(this, Observer { result ->
-            val placeManages = result.getOrNull()
-            if (placeManages != null) {
-                placeManageViewModel.placeManageList.clear()
-                placeManageViewModel.placeManageList.addAll(placeManages)
-                placeManageAdapter.notifyDataSetChanged()
-                Toast.makeText(this,"已删除",Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this,"无法获取地点管理数据", Toast.LENGTH_SHORT).show()
-                result.exceptionOrNull()?.printStackTrace()
+        placeManageViewModel.toastLiveData.observe(this) { it ->
+            if (it != "") {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
             }
-        })
-
-        placeManageViewModel.loadAllPlaceManages.observe(this, Observer{ result ->
-            val placeManages = result.getOrNull()
-            if (placeManages != null) {
-                placeManageViewModel.placeManageList.clear()
-                placeManageViewModel.placeManageList.addAll(placeManages)
-                placeManageAdapter.notifyDataSetChanged()
-            } else {
-                Toast.makeText(this,"无法获取地点管理数据", Toast.LENGTH_SHORT).show()
-                result.exceptionOrNull()?.printStackTrace()
-            }
-        })
+        }
 
         swipeRefresh.setColorSchemeResources(R.color.royal_blue)
         refreshWeather()                    //刷新天气
@@ -202,7 +182,6 @@ class WeatherActivity : AppCompatActivity() {
             val addPlaceManage = PlaceManage(weatherViewModel.placeName,weatherViewModel.locationLng,weatherViewModel.locationLat,
                                 weatherViewModel.placeAddress,weatherViewModel.placeRealtimeTem,weatherViewModel.placeSkycon)
             placeManageViewModel.addPlaceManage(addPlaceManage)
-            Toast.makeText(this,"地点已添加",Toast.LENGTH_SHORT).show()
         }
         drawerLayout.addDrawerListener(object: DrawerLayout.DrawerListener {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
@@ -232,6 +211,11 @@ class WeatherActivity : AppCompatActivity() {
         refreshWeather()
     }
 
+    override fun onStop() {
+        super.onStop()
+        placeManageViewModel.clearToast()
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private fun showWeatherInfo(weather: Weather) {
         placeName.text = weatherViewModel.placeName
@@ -252,13 +236,13 @@ class WeatherActivity : AppCompatActivity() {
         weatherViewModel.placeRealtimeTem = realtimeTemInt
         weatherViewModel.placeSkycon = currentSkyInfo
 
-        //点击地点管理中的地点更新该地点温度和天气信息
-        if (weatherViewModel.isUpdatePlaceManage ==  1) {
+        //是否是点击地点管理中的地点更新该地点温度和天气信息
+        if (weatherViewModel.isUpdatePlaceManage) {
             val updatePlaceManage = PlaceManage(weatherViewModel.placeName,weatherViewModel.locationLng,
                 weatherViewModel.locationLat, weatherViewModel.placeAddress,
                 weatherViewModel.placeRealtimeTem,weatherViewModel.placeSkycon)
-            placeManageViewModel.addPlaceManage(updatePlaceManage)
-            weatherViewModel.isUpdatePlaceManage = 0
+            placeManageViewModel.updatePlaceManage(updatePlaceManage)
+            weatherViewModel.isUpdatePlaceManage = false
         }
 
         //填充forecast_hourly.xml布局中的数据
