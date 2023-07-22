@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.weather.R
+import com.example.weather.customview.RealtimeWeatherView
 import com.example.weather.logic.model.HourlyForecast
 import com.example.weather.logic.model.PlaceManage
 import com.example.weather.logic.model.Weather
@@ -34,11 +35,7 @@ class WeatherActivity : AppCompatActivity() {
 
     private lateinit var placeName: TextView
 
-    private lateinit var currentTemp: TextView
-
-    private lateinit var currentSky: TextView
-
-    private lateinit var currentAQI: TextView
+    private lateinit var realtimeWeatherView: RealtimeWeatherView
 
     private lateinit var nowLayout: RelativeLayout
 
@@ -86,9 +83,7 @@ class WeatherActivity : AppCompatActivity() {
         window.statusBarColor = Color.TRANSPARENT
 
         placeName = findViewById(R.id.placeName)
-        currentTemp = findViewById(R.id.currentTemp)
-        currentSky = findViewById(R.id.currentSky)
-        currentAQI = findViewById(R.id.currentAQI)
+        realtimeWeatherView = findViewById(R.id.realtimeWeather)
         nowLayout = findViewById(R.id.nowLayout)
         forecastLayout = findViewById(R.id.forecastLayout)
         coldRiskText = findViewById(R.id.coldRiskText)
@@ -225,11 +220,13 @@ class WeatherActivity : AppCompatActivity() {
         // 填充now.xml布局中的数据
         val realtimeTemInt = realtime.temperature.toInt()
         val currentSkyInfo = getSky(realtime.skycon).info
-        val currentTempText = "$realtimeTemInt ℃"
-        currentTemp.text = currentTempText
-        currentSky.text = currentSkyInfo
-        val currentPM25Text = "空气指数 ${realtime.airQuality.aqi.chn.toInt()}"
-        currentAQI.text = currentPM25Text
+        val currentPM25 = realtime.airQuality.aqi.chn.toInt()
+        val currentApparentTemInt = realtime.apparentTemperature.toInt()
+        val currentWindDir = realtime.wind.direction
+        val currentWindScale = calculateWindScale(realtime.wind.speed.toInt())
+        val currentHumidity = (realtime.humidity * 100).toInt()
+        realtimeWeatherView.setRealtimeWeather(realtimeTemInt,currentSkyInfo,currentPM25,
+            currentApparentTemInt,currentWindDir,currentWindScale,currentHumidity)
         nowLayout.setBackgroundResource(getSky(realtime.skycon).bg)
 
         //将网络请求的当前温度和Skycon保存到ViewModel中
@@ -299,5 +296,22 @@ class WeatherActivity : AppCompatActivity() {
     private fun getDayOfWeek(date: Date): String {
         val sdf = SimpleDateFormat("E", Locale.getDefault())
         return sdf.format(date)
+    }
+    private fun calculateWindScale(windSpeed: Int): Int {
+        return when {
+            windSpeed < 1 -> 0 // Calm
+            windSpeed < 6 -> 1 // Light air
+            windSpeed < 12 -> 2 // Light breeze
+            windSpeed < 20 -> 3 // Gentle breeze
+            windSpeed < 29 -> 4 // Moderate breeze
+            windSpeed < 39 -> 5 // Fresh breeze
+            windSpeed < 50 -> 6 // Strong breeze
+            windSpeed < 62 -> 7 // Near gale
+            windSpeed < 75 -> 8 // Gale
+            windSpeed < 89 -> 9 // Strong gale
+            windSpeed < 103 -> 10 // Storm
+            windSpeed <= 117 -> 11 // Violent storm
+            else -> 12 // Hurricane
+        }
     }
 }
