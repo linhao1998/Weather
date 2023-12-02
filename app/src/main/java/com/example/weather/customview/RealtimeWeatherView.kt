@@ -18,7 +18,7 @@ class RealtimeWeatherView(context: Context, attrs: AttributeSet): View(context, 
     private var wsBitmap: Bitmap
     private var humBitmap: Bitmap
 
-    private val defaultWidth = 600
+    private val defaultWidth = 610
     private val defaultHeight = 500
 
     private var rotationCenterX = 0f
