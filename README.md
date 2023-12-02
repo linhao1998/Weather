@@ -11,7 +11,7 @@
 
 ### 下载
 
-#### Apk下载链接：[Apk下载链接](https://github.com/linhao1998/Weather/releases/download/1.0.0/app-release.apk)
+#### Apk下载链接：[Apk下载链接](https://github.com/linhao1998/Weather/releases/download/1.1.0/app-release.apk)
 
 ### 新增功能
 
